@@ -2,6 +2,12 @@
 
 set -ex
 
+#We must avoid very long shebangs here.
+echo '#!/usr/bin/env bash' > g-ir-scanner
+echo "${PREFIX}/bin/python ${PREFIX}/bin/g-ir-scanner \$*" >> g-ir-scanner
+chmod +x ./g-ir-scanner
+export PATH=${PWD}:${PATH}
+
 meson builddir --prefix=$PREFIX --libdir=$PREFIX/lib
 meson configure -D enable_docs=false builddir
 ninja -v -C builddir

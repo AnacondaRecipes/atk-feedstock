@@ -37,11 +37,12 @@ outputs:
         - glib
         - gobject-introspection 1.*
         - ninja
-
+        - gettext  # [osx]
       run:
         - glib
         - gobject-introspection 1.*
         - ninja
+        - gettext  # [osx]
       run_constrained:
         - atk-{{ abi_version }} {{ version }}
 

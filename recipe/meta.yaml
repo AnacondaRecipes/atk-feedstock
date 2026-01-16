@@ -36,8 +36,6 @@ outputs:
         - {{ compiler('cxx') }}
       host:
         - glib
-        - gobject-introspection 1.*
-        # - libintl-devel  # [not linux]
         - gettext  # [osx]
       run:
         - libglib

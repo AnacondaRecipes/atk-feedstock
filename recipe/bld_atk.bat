@@ -12,12 +12,13 @@ set "LIBRARY_PREFIX_M=%LIBRARY_PREFIX:\=/%"
 :: (set pkg_config_path so deps in host env can be found)
 set ^"MESON_OPTIONS=^
   --prefix="%LIBRARY_PREFIX_M%" ^
+  --libdir=lib ^
   --wrap-mode=nofallback ^
   --buildtype=release ^
   --backend=ninja ^
-  -D docs=false ^
+  -Ddocs=false ^
  ^"
-
+ 
 :: configure build using meson
 %BUILD_PREFIX%\python.exe %BUILD_PREFIX%\Scripts\meson setup builddir !MESON_OPTIONS!
 if errorlevel 1 exit 1

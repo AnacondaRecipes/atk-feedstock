@@ -11,7 +11,14 @@ exec "${BUILD_PREFIX}/bin/python" "${BUILD_PREFIX}/bin/g-ir-scanner" "\$@"
 EOF
 chmod +x "${PREFIX}/bin/g-ir-scanner"
 
-meson setup builddir --prefix="$PREFIX" --libdir=lib -Ddocs=false
+meson setup builddir \
+  --prefix="$PREFIX" \
+  --libdir=lib \
+  --wrap-mode=nofallback \
+  --buildtype=release \
+  --backend=ninja \
+  -Ddocs=false
+
 meson configure builddir
 ninja -v -C builddir
 ninja -C builddir install

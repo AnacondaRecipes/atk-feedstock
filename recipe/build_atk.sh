@@ -2,20 +2,14 @@
 
 set -ex
 
-# # Avoid long shebangs and force build python + build g-ir-scanner
-echo '#!/usr/bin/env bash' > g-ir-scanner
-echo "${PREFIX}/bin/python ${PREFIX}/bin/g-ir-scanner \"\$@\"" >> g-ir-scanner
-chmod +x ./g-ir-scanner
-export PATH="${PWD}:${PATH}"
+# Replace host g-ir-scanner with wrapper that runs build scanner with build python
+mv -v "${PREFIX}/bin/g-ir-scanner" "${PREFIX}/bin/g-ir-scanner.real"
 
-# Force build tools first (meson will pick g-ir-scanner from PATH)
-# export PATH="${BUILD_PREFIX}/bin:${PATH}"
-# cat > g-ir-scanner <<'EOF'
-# #!/usr/bin/env bash
-# exec "${BUILD_PREFIX}/bin/python" "${BUILD_PREFIX}/bin/g-ir-scanner" "$@"
-# EOF
-# chmod +x g-ir-scanner
-# export PATH="${PWD}:${PATH}"
+cat > "${PREFIX}/bin/g-ir-scanner" <<EOF
+#!/usr/bin/env bash
+exec "${BUILD_PREFIX}/bin/python" "${BUILD_PREFIX}/bin/g-ir-scanner" "\$@"
+EOF
+chmod +x "${PREFIX}/bin/g-ir-scanner"
 
 meson setup builddir --prefix="$PREFIX" --libdir=lib -Ddocs=false
 meson configure builddir

@@ -34,7 +34,7 @@ outputs:
         - {{ compiler('c') }}
         - {{ stdlib('c') }}
       host:
-        - glib
+        - glib {{ glib }}
         - gobject-introspection 1.*
         - gettext  # [osx]
       run:

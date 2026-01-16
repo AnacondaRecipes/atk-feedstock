@@ -13,7 +13,6 @@ source:
 
 build:
   number: 0
-  skip: true  # [win and vc<14]
   run_exports:
     - atk-{{ abi_version }} >={{ version }}
 
@@ -26,7 +25,7 @@ outputs:
         - atk-{{ abi_version }} >={{ version }}
     requirements:
       build:
-        - meson
+        - meson >=0.56.2
         - gobject-introspection 1.*
         - ninja
         - python
@@ -38,7 +37,7 @@ outputs:
         - gobject-introspection 1.*
         - gettext  # [osx]
       run:
-        - libglib
+        - glib
         - gettext  # [osx]
       run_constrained:
         - atk-{{ abi_version }} {{ version }}
@@ -67,10 +66,15 @@ outputs:
        - test -f $PREFIX/lib/pkgconfig/atk.pc  # [unix]
 
 about:
-  home: http://www.gtk.org
+  home: https://www.gtk.org
   license: LGPL-2.0-or-later
   license_file: COPYING
-  summary: Accessibility Toolkit
+  summary: The interface definitions of accessibility infrastructure
+  description: |
+    ATK is a library providing interface definitions that are consumed by
+    toolkits that wish to integrate with the GNOME accessibility infrastructure.
+  doc_url: https://www.atk.org
+  dev_url: https://developer.gnome.org/atk
 
 extra:
   recipe-maintainers:

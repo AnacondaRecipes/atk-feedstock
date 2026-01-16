@@ -8,8 +8,8 @@ echo "${BUILD_PREFIX}/bin/python ${BUILD_PREFIX}/bin/g-ir-scanner \"\$@\"" >> g-
 chmod +x ./g-ir-scanner
 export PATH="${PWD}:${PATH}"
 
-meson builddir --prefix=$PREFIX --libdir=$PREFIX/lib
-meson configure -Ddocs=false builddir
+meson setup builddir --prefix="$PREFIX" --libdir=lib -Ddocs=false
+meson configure builddir
 ninja -v -C builddir
 ninja -C builddir install
 

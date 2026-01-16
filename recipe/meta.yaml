@@ -8,7 +8,7 @@ package:
   version: {{ version }}
 
 source:
-  url: http://ftp.gnome.org/pub/gnome/sources/{{ name }}/{{ major_minor }}/{{ name }}-{{ version }}.tar.xz
+  url: https://ftp.gnome.org/pub/gnome/sources/{{ name }}/{{ major_minor }}/{{ name }}-{{ version }}.tar.xz
   sha256: ac4de2a4ef4bd5665052952fe169657e65e895c5057dffb3c2a810f6191a0c36
 
 build:
@@ -29,13 +29,13 @@ outputs:
         - meson
         - gobject-introspection 1.*
         - ninja
-        - python >=3.6
+        - python
         - pkg-config
         - {{ compiler('c') }}
         - {{ stdlib('c') }}
-        - {{ compiler('cxx') }}
       host:
         - glib
+        - gobject-introspection 1.*
         - gettext  # [osx]
       run:
         - libglib
@@ -64,6 +64,7 @@ outputs:
     test:
       commands:
        - test -f $PREFIX/lib/libatk-{{ abi_version }}${SHLIB_EXT}  # [unix]
+       - test -f $PREFIX/lib/pkgconfig/atk.pc  # [unix]
 
 about:
   home: http://www.gtk.org

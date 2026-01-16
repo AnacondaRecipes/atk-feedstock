@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/usr/bin/env bash
 
 set -ex
 
@@ -9,7 +9,7 @@ chmod +x ./g-ir-scanner
 export PATH=${PWD}:${PATH}
 
 meson builddir --prefix=$PREFIX --libdir=$PREFIX/lib
-meson configure -D enable_docs=false builddir
+meson configure -Ddocs=false builddir
 ninja -v -C builddir
 ninja -C builddir install
 

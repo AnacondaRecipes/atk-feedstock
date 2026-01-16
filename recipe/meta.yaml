@@ -1,5 +1,5 @@
 {% set name = "atk" %}
-{% set version = "2.36.0" %}
+{% set version = "2.38.0" %}
 {% set major_minor = ".".join(version.split(".")[:2]) %}
 {% set abi_version = "1.0" %}
 
@@ -9,7 +9,7 @@ package:
 
 source:
   url: http://ftp.gnome.org/pub/gnome/sources/{{ name }}/{{ major_minor }}/{{ name }}-{{ version }}.tar.xz
-  sha256: fb76247e369402be23f1f5c65d38a9639c1164d934e40f6a9cf3c9e96b652788
+  sha256: ac4de2a4ef4bd5665052952fe169657e65e895c5057dffb3c2a810f6191a0c36
 
 build:
   number: 0
@@ -26,22 +26,21 @@ outputs:
         - atk-{{ abi_version }} >={{ version }}
     requirements:
       build:
-        - make  # [not win]
-        # See https://github.com/conda-forge/atk-feedstock/pull/14#issuecomment-610061908
-        - meson=0.53.2
+        - meson
+        - gobject-introspection 1.*
         - ninja
         - python >=3.6
         - pkg-config
         - {{ compiler('c') }}
+        - {{ stdlib('c') }}
+        - {{ compiler('cxx') }}
       host:
         - glib
         - gobject-introspection 1.*
-        - ninja
+        # - libintl-devel  # [not linux]
         - gettext  # [osx]
       run:
-        - glib
-        - gobject-introspection 1.*
-        - ninja
+        - libglib
         - gettext  # [osx]
       run_constrained:
         - atk-{{ abi_version }} {{ version }}
@@ -69,10 +68,10 @@ outputs:
        - test -f $PREFIX/lib/libatk-{{ abi_version }}${SHLIB_EXT}  # [unix]
 
 about:
-  home: http://www.gtk.org/
+  home: http://www.gtk.org
   license: LGPL-2.0-or-later
   license_file: COPYING
-  summary: 'Accessibility Toolkit.'
+  summary: Accessibility Toolkit
 
 extra:
   recipe-maintainers:

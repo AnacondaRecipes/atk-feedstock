@@ -1,5 +1,5 @@
 {% set name = "atk" %}
-{% set version = "2.36.0" %}
+{% set version = "2.38.0" %}
 {% set major_minor = ".".join(version.split(".")[:2]) %}
 {% set abi_version = "1.0" %}
 
@@ -8,12 +8,11 @@ package:
   version: {{ version }}
 
 source:
-  url: http://ftp.gnome.org/pub/gnome/sources/{{ name }}/{{ major_minor }}/{{ name }}-{{ version }}.tar.xz
-  sha256: fb76247e369402be23f1f5c65d38a9639c1164d934e40f6a9cf3c9e96b652788
+  url: https://ftp.gnome.org/pub/gnome/sources/{{ name }}/{{ major_minor }}/{{ name }}-{{ version }}.tar.xz
+  sha256: ac4de2a4ef4bd5665052952fe169657e65e895c5057dffb3c2a810f6191a0c36
 
 build:
   number: 0
-  skip: true  # [win and vc<14]
   run_exports:
     - atk-{{ abi_version }} >={{ version }}
 
@@ -26,22 +25,19 @@ outputs:
         - atk-{{ abi_version }} >={{ version }}
     requirements:
       build:
-        - make  # [not win]
-        # See https://github.com/conda-forge/atk-feedstock/pull/14#issuecomment-610061908
-        - meson=0.53.2
+        - meson >=0.56.2
+        - gobject-introspection 1.*
         - ninja
-        - python >=3.6
+        - python
         - pkg-config
         - {{ compiler('c') }}
+        - {{ stdlib('c') }}
       host:
-        - glib
+        - glib {{ glib }}
         - gobject-introspection 1.*
-        - ninja
-        - gettext  # [osx]
+        - gettext  {{ gettext }}  # [osx]
       run:
         - glib
-        - gobject-introspection 1.*
-        - ninja
         - gettext  # [osx]
       run_constrained:
         - atk-{{ abi_version }} {{ version }}
@@ -67,12 +63,18 @@ outputs:
     test:
       commands:
        - test -f $PREFIX/lib/libatk-{{ abi_version }}${SHLIB_EXT}  # [unix]
+       - test -f $PREFIX/lib/pkgconfig/atk.pc  # [unix]
 
 about:
-  home: http://www.gtk.org/
+  home: https://www.gtk.org
   license: LGPL-2.0-or-later
   license_file: COPYING
-  summary: 'Accessibility Toolkit.'
+  summary: The interface definitions of accessibility infrastructure
+  description: |
+    ATK is a library providing interface definitions that are consumed by
+    toolkits that wish to integrate with the GNOME accessibility infrastructure.
+  doc_url: https://www.atk.org
+  dev_url: https://developer.gnome.org/atk
 
 extra:
   recipe-maintainers:

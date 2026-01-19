@@ -35,7 +35,7 @@ outputs:
       host:
         - glib {{ glib }}
         - gobject-introspection 1.*
-        - gettext  # [osx]
+        - gettext  {{ gettext }}  # [osx]
       run:
         - glib
         - gettext  # [osx]
